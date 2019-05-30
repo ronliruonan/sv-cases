@@ -1,0 +1,16 @@
+{
+  "name": "gesturescale",
+  "version": "1.0.0",
+  "description": "GestureScale \r ==============\r 手势缩放1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "gulp serve"
+  },
+  "author": "ronan li",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.26.5",
+    "gulp": "^4.0.2"
+  }
+}
