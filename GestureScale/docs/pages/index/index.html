@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>移动端 - 手势缩放</title>
+	<link rel="shortcut icon" type="images/x-icon" href="../../favicon.ico">
+	<link rel="stylesheet" href="/pages/index/index.css">
+</head>
+
+<body>
+	<div id="app">
+		<section id="viewbox" style="height:80vh;">
+			<section id="view">
+
+			</section>
+		</section>
+	</div>
+</body>
+<script>
+	; (function () {
+		const imgs = ["3.jpg", "4.jpg", "1.png", "2.png", "5.png",];
+		const imgStrs = imgs.map((value, index, array) => {
+			return `<img src="/assets/imgs/${value}"> <i class="ihr">---文字分割线---</i>`;
+		});
+		document.querySelector('#view').innerHTML = imgStrs.join(' ');
+	})();
+</script>
+<script src="/pages/index/index.js"></script>
+
+</html>

@@ -6,7 +6,7 @@ gulp.task('serve', function () {
         files: ['**'],
         server: {
             baseDir: './docs',
-            index: 'pages/index.html'
+            index: 'pages/index/index.html'
         },
         port: 6203
     });
