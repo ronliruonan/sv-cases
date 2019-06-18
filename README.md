@@ -6,7 +6,7 @@ GestrueScale
 =============
 手势缩放
 
-[Online_Demo_Is_Here](./gesturescale/docs/pages/index/index.html)
+[Online_Demo_Is_Here](./GestureScale/docs/pages/index/index.html)
 
 
 AmountFormat 金额格式化
