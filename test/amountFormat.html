@@ -14,10 +14,10 @@
     <h1>金额格式化</h1>
     <input id="no_format" type="number" value="1234">
     <button id="btn" type="button" onclick="compute(event)">计算</button>
+    <p id="result"></p>
     <script>
         function compute(event) {
-            console.log(+document.querySelector('#no_format').value)
-            console.log(AmountFormat(+document.querySelector('#no_format').value))
+            document.querySelector('#result').textContent = AmountFormat(+document.querySelector('#no_format').value);
         }
     </script>
 </body>
