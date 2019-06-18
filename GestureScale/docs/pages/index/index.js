@@ -135,7 +135,7 @@
                 _config.scale_value = scaleSmaller;
             }
         });
-        e.preventDefault();
+        // e.preventDefault();
     }, false);
 
 
