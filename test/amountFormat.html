@@ -17,7 +17,16 @@
     <p id="result"></p>
     <script>
         function compute(event) {
-            document.querySelector('#result').textContent = AmountFormat(+document.querySelector('#no_format').value);
+            const a = +document.querySelector('#no_format').value;
+            console.group();
+            console.log(a);
+            console.time();
+            for (let index = 0; index < 5000; index++) {
+                AmountFormat(a);
+            }
+            console.timeEnd();
+            console.groupEnd();
+            document.querySelector('#result').textContent = AmountFormat(a);
         }
     </script>
 </body>
