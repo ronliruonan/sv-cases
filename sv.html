@@ -1,0 +1,64 @@
+<script>
+
+    // function Parent() { }
+    // Parent.prototype = {
+    //     eat: function () { }
+    // }
+    // console.log(new Parent);
+
+    // function Child() { }
+    // Child.prototype = Object.create(Parent.prototype, {
+    //     play: {
+    //         configurable: true,
+    //         enumerable: true,
+
+    //     }
+    // });
+    // console.log(new Child);
+
+    // const person = {
+    //     isHuman: false,
+    //     printIntroduction: function () {
+    //         console.log(`My name is ${this.name}. Am I human? ${this.isHuman}`);
+    //     }
+    // };
+
+    // const me = Object.create(person);
+
+    // me.name = "Matthew"; // "name" is a property set on "me", but not on "person"
+    // me.isHuman = true; // inherited properties can be overwritten
+
+    // me.printIntroduction();
+    // console.log('person', person);
+    // console.log('me', me);
+
+
+    // 优雅的实现继承
+    function Shape() {
+        this.x = 0;
+        this.y = 0;
+    }
+    Shape.prototype = {
+        mv: function () { }
+    }
+
+
+    function Rectangle() {
+        Shape.call(this);
+    }
+    Rectangle.prototype = Object.create(Shape.prototype, {
+        play: {
+            // writable: true, // 是否可以使用赋值运算操作
+            // enumerable: true, // 枚举时，是否显示该属性
+            // configurable: true, // 是否可以在对象中删除
+            value: function () { }
+        }
+    });
+
+
+    Rectangle.prototype.constructor = Rectangle;
+    console.log(new Rectangle);
+
+    console.log(new Rectangle instanceof Rectangle);
+    console.log(new Rectangle instanceof Shape);
+</script>
