@@ -1,0 +1,181 @@
+<script>
+     
+    function FnPromise(callback) {
+        let _this = this;
+        _this.resolveVal = _this.rejectVal = void 0;
+        _this.status = 'pending'; // 默认是等待状态
+        _this.keepResolveFn = [];
+        _this.keepRejectFn = [];
+
+        // array 0  3
+        function recursive(array, index, length, instance) {
+            if (length === 0 || index + 1 > length) return;
+            if (instance instanceof FnPromise) {
+                instance.then(
+                    res => {
+                        let result = array[index]();
+                        recursive(array, ++index, length, result);
+                    }, rej => {
+                        let result = array[index]();
+                        recursive(array, ++index, length, result);
+                    }
+                );
+            } else {
+                let result = array[index]();
+
+                recursive(array, ++index, length, result);
+            }
+        }
+
+        function resolve(val) {
+            if (_this.status !== 'pending') return;
+            _this.resolveVal = val;
+            _this.status = 'resolve';
+
+            recursive(_this.keepResolveFn, 0, _this.keepResolveFn.length, null);
+        }
+        function reject(val) {
+            _this.status === 'pending' && (
+                _this.rejectVal = val,
+                _this.status = 'reject',
+                _this.keepRejectFn.forEach(fn => fn())
+            );
+        }
+
+        try {
+            callback(resolve, reject); // callback自动执行
+        } catch (error) {
+            reject(); // 若是报错，则直接变为reject状态
+        }
+    }
+
+    FnPromise.resolve = function (val) {
+        if (val instanceof FnPromise) return val;
+        if ('then' in val && typeof val.then === 'function') {
+            return new FnPromise(res => res(val))
+            // .then(function(res){},fujnction(rej){});
+        }
+        return new FnPromise(res => res(val));
+    }
+    FnPromise.reject = function (val) {
+        return new FnPromise((_, rej) => rej(val));
+    }
+
+    FnPromise.prototype.then = function (resolveFun, rejectFun) {
+        let _this = this;
+        if (_this.status === 'resolve') {
+            let result = resolveFun(_this.resolveVal);
+            _this.resolveVal = result;
+
+            if (result instanceof FnPromise) {
+                return result;
+            } else {
+                return _this;
+            }
+        }
+        if (_this.status === 'reject') {
+            let result = rejectFun(_this.rejectVal);
+            _this.rejectVal = result;
+
+            if (result instanceof FnPromise) {
+                return result;
+            } else {
+                return _this;
+            }
+        }
+
+        if (_this.status === 'pending') {
+            _this.keepResolveFn.push(() => {
+                let result =
+                    resolveFun(_this.resolveVal);
+                _this.resolveVal = result;
+                return result;
+            });
+            _this.keepRejectFn.push(() => {
+                let result =
+                    rejectFun(_this.rejectVal);
+                _this.rejectVal = result;
+            });
+
+            return _this;
+        }
+    }
+
+    // var pf = new FnPromise((res, rej) => {
+    //     // setTimeout(function () {
+    //     res('Input successful');
+    //     // rej('intput failed');
+    //     // }, 1000 * 4);
+    // });
+    // pf
+    //     .then(res => {
+    //         console.log('FnPromise Resolve:', res);
+    //         // return 200;
+    //         // return FnPromise.resolve(304);
+    //         return new FnPromise((res, rej) => {
+    //             // res(101);
+    //             rej(404);
+    //         });
+    //     }, rej => {
+    //         console.log('FnPromise Reject:', rej);
+    //         return 500;
+    //     })
+    //     .then(res => {
+    //         console.log('Seconde: is 200: ', res);
+    //         // return 'ronan 200';
+    //     }, rej => {
+    //         console.log('Seconde: is 500: ', rej);
+    //         // return 'ronan 500';
+    //     });
+
+
+    var b = 10;
+    new FnPromise((resolve, reject) => {
+        setTimeout(() => {
+            b += 10;
+            resolve();
+        }, 1000 * 5);
+    })
+        .then(() => {
+            console.log(b);
+
+            return new FnPromise(resolve => {
+                setTimeout(() => {
+                    console.log('b *= 2')
+                    b *= 2;
+                    resolve();
+                }, 1000 * 6);
+            });
+        })
+        .then(() => {
+            console.log(b);
+
+            return new FnPromise(resolve => {
+                setTimeout(() => {
+                    console.log('b *= b')
+                    b *= b;
+                    resolve();
+                }, 1000 * 5);
+            });
+        })
+        .then(() => {
+            console.log(b);
+
+            return new FnPromise(resolve => {
+                setTimeout(() => {
+                    console.log('b = 0')
+                    b = 0;
+                    resolve();
+                }, 1000 * 5);
+            });
+        })
+        .then(() => {
+            console.log('下面应该是结果');
+            console.log(b);
+        }, () => {
+            console.log('failed')
+        });
+
+
+
+</script>
