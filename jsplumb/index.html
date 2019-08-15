@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href=https://cdn.bootcss.com/jsPlumb/2.6.8/js/jsplumb.min.js rel=preload as=script>
+  <style>
+    #_contain div {
+      display: inline-block;
+      width: 100px;
+      height: 50px;
+      text-align: center;
+      line-height: 50px;
+      background-color: rgb(238, 157, 157);
+    }
+
+    #_item_2 {
+      position: absolute;
+      top: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="_contain" style="position: relative;">
+
+    <div id="_item_1">110</div>
+    <div id="_item_2">120</div>
+  </div>
+
+  <script src="https://cdn.bootcss.com/jsPlumb/2.6.8/js/jsplumb.min.js"></script>
+  <script>
+    jsPlumb.ready(function () {
+      jsPlumb.connect({
+        source: '_item_1',
+        target: '_item_2',
+        endpoint: 'Dot',
+        connector:['Straight']
+      });
+
+      jsPlumb.draggable('_item_1')
+    });
+  </script>
+</body>
+
+</html>
