@@ -10,36 +10,108 @@
   <style>
     #_contain div {
       display: inline-block;
-      width: 100px;
-      height: 50px;
+      /* width: 100px; */
+      /* height: 50px; */
       text-align: center;
-      line-height: 50px;
-      background-color: rgb(238, 157, 157);
+      line-height: 1.5;
+      background-color: rgb(221, 221, 221);
     }
 
-    #_item_2 {
+    #_item_1 {
       position: absolute;
-      top: 200px;
+      top: 75px;
+      left: 0;
+    }
+
+    #_item_1-0 {
+      position: absolute;
+      top: 0;
+      left: 250px;
+    }
+
+    #_item_1-1 {
+      position: absolute;
+      top: 150px;
+      left: 250px;
+    }
+
+    #_item_1-1-1 {
+      position: absolute;
+      top: 108px;
+      left: 450px;
+    }
+
+    .item {
+      padding: 2px 12px;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .item-red {
+      background-color: red !important;
+    }
+
+    .item-orange {
+      background-color: orange !important;
     }
   </style>
 </head>
 
 <body>
-  <div id="_contain" style="position: relative;">
+  <div id="_contain" style="position: relative;padding:20px;">
 
-    <div id="_item_1">110</div>
-    <div id="_item_2">120</div>
+    <div id="_item_1">
+      <section class="item item-red">
+        持有套数 <br> 50000
+      </section>
+    </div>
+    <div id="_item_1-0">
+      <section class="item">
+        解约套数<br> 500
+      </section>
+    </div>
+    <div id="_item_1-1">
+      <section class="item item-red">
+        新收套数 <br>1000
+      </section>
+    </div>
+
+    <div id="_item_1-1-1">
+      <h3 style="padding: 2px;margin:0;">收房渠道</h3>
+      <section class="item item-orange">
+        直接新收套数 <br>500
+      </section>
+      <section class="item item-orange">
+        渠道新收套数 <br>500
+      </section>
+    </div>
+
   </div>
 
   <script src="https://cdn.bootcss.com/jsPlumb/2.6.8/js/jsplumb.min.js"></script>
   <script>
     jsPlumb.ready(function () {
+      const common = {
+        endpoint: 'Dot',
+        // connector: ['Bezier'],
+        connector: ['Flowchart'],
+        // connector: ['StateMachine'], // 状态机  难看，不理解意思
+        // connector: ['Straight'], // 直线 难看
+        anchor: ['Left', 'Right'],
+      };
       jsPlumb.connect({
         source: '_item_1',
-        target: '_item_2',
-        endpoint: 'Dot',
-        connector:['Straight']
-      });
+        target: '_item_1-0',
+      }, common);
+      jsPlumb.connect({
+        source: '_item_1',
+        target: '_item_1-1',
+      }, common);
+
+      jsPlumb.connect({
+        source: '_item_1-1',
+        target: '_item_1-1-1',
+      }, Object.assign({}, common));
 
       jsPlumb.draggable('_item_1')
     });
